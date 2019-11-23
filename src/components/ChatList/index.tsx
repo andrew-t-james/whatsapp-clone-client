@@ -23,4 +23,5 @@ const ChatsList: React.FC = () => (
     </List>
   </div>
 )
+
 export default ChatsList
