@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import styled from 'styled-components'
 import { List, ListItem } from '@material-ui/core'
 
 import { chats } from '../../db'
