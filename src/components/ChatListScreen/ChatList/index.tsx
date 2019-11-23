@@ -105,7 +105,11 @@ const ChatsList: React.FC = () => {
       <StyledList>
         {chats.map(chat => (
           <StyledListItem key={chat.id} button>
-            <ChatPicture src={chat.picture} alt="Profile" />
+            <ChatPicture
+              src={chat.picture}
+              alt="Profile"
+              data-testid="picture"
+            />
             <ChatInfo>
               <ChatName data-testid="name">{chat.name}</ChatName>
               {chat.lastMessage && (
