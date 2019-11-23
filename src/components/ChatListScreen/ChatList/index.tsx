@@ -123,6 +123,7 @@ const ChatsList: React.FC<ChatsListProps> = ({
           <StyledListItem
             key={chat.id}
             button
+            data-testid="chat"
             onClick={navToChat.bind(null, chat)}>
             <ChatPicture
               src={chat.picture}
