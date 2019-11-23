@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
 import moment from 'moment'
 import { List, ListItem } from '@material-ui/core'
 import styled from 'styled-components/macro'
+import { History } from 'history'
 
 const Container = styled.div`
   height: calc(100% - 56px);
@@ -83,7 +84,15 @@ interface Message {
   createdAt: number
 }
 
-const ChatsList: React.FC = () => {
+interface ChatsListProps {
+  history: History
+}
+
+const ChatsList: React.FC<ChatsListProps> = ({
+  history
+}: {
+  history: History
+}) => {
   const [chats, setChats] = useState<Chat[]>([])
 
   useMemo(async () => {
@@ -100,11 +109,21 @@ const ChatsList: React.FC = () => {
     setChats(chats)
   }, [])
 
+  const navToChat = useCallback(
+    chat => {
+      history.push(`chats/${chat.id}`)
+    },
+    [history]
+  )
+
   return (
     <Container>
       <StyledList>
         {chats.map(chat => (
-          <StyledListItem key={chat.id} button>
+          <StyledListItem
+            key={chat.id}
+            button
+            onClick={navToChat.bind(null, chat)}>
             <ChatPicture
               src={chat.picture}
               alt="Profile"
