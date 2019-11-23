@@ -55,8 +55,21 @@ const MessageDate = styled.div`
   font-size: 13px;
 `
 
+interface Chat {
+  id: string
+  name: string
+  picture: string
+  lastMessage: Message
+}
+
+interface Message {
+  id: string
+  content: string
+  createdAt: number
+}
+
 const ChatsList: React.FC = () => {
-  const [chats, setChats] = useState<any[]>([])
+  const [chats, setChats] = useState<Chat[]>([])
 
   useMemo(async () => {
     const body = await fetch(`${process.env.REACT_APP_SERVER_URL}/chats`)
