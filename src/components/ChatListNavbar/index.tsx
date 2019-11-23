@@ -1,6 +1,6 @@
 import React from 'react'
 import { Toolbar } from '@material-ui/core'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const Container = styled(Toolbar)`
   background-color: var(--primary-bg);
