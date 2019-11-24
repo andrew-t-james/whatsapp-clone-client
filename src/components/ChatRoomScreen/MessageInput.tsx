@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, KeyboardEvent } from 'react'
 import Button from '@material-ui/core/Button'
 import SendIcon from '@material-ui/icons/Send'
 import styled from 'styled-components'
@@ -39,27 +39,27 @@ const SendButton = styled(Button)`
 `
 
 interface MessageInputProps {
-  onSendMessage(content: string): any
+  onSendMessage(content: string): void
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('')
 
-  const onKeyPress = (e: any) => {
-    if (e.charCode === 13) {
-      submitMessage()
-    }
-  }
-
-  const onChange = ({ target }: any) => {
+  const onChange = ({ target }: { target: { value: string } }): void => {
     setMessage(target.value)
   }
 
-  const submitMessage = () => {
+  const submitMessage = (): void => {
     if (!message) return
     setMessage('')
     if (typeof onSendMessage === 'function') {
       onSendMessage(message)
+    }
+  }
+
+  const onKeyPress = (e: KeyboardEvent): void => {
+    if (e.charCode === 13) {
+      submitMessage()
     }
   }
 
