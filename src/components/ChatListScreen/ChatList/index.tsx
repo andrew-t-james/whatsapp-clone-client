@@ -88,11 +88,7 @@ interface ChatsListProps {
   history: History
 }
 
-const ChatsList: React.FC<ChatsListProps> = ({
-  history
-}: {
-  history: History
-}) => {
+const ChatsList: React.FC<ChatsListProps> = ({ history }) => {
   const [chats, setChats] = useState<Chat[]>([])
 
   useMemo(async () => {
