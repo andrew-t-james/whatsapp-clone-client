@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import ChatsNavbar from './ChatListNavbar'
+import ChatsListNavBar from './ChatsListNavBar'
 import ChatsList from './ChatList'
 import { History } from 'history'
 
@@ -14,7 +14,7 @@ interface ChatsListScreenProps {
 
 const ChatsListScreen: React.FC<ChatsListScreenProps> = ({ history }) => (
   <Container>
-    <ChatsNavbar />
+    <ChatsListNavBar history={history} />
     <ChatsList history={history} />
   </Container>
 )

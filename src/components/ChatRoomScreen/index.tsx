@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
-import ChatNavbar from '../ChatListScreen/ChatListNavbar'
+import ChatNavbar from './ChatRoomNavbar'
 import MessageInput from './MessageInput'
 import MessagesList from './MessagesList'
 import { History } from 'history'

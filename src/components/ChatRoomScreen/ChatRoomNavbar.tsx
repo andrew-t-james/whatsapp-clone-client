@@ -5,7 +5,7 @@ import React from 'react'
 import { useCallback } from 'react'
 import styled from 'styled-components'
 import { History } from 'history'
-import { ChatQueryResult } from '../../ChatRoomScreen'
+import { ChatQueryResult } from './index'
 
 const Container = styled(Toolbar)`
   padding: 0;
@@ -14,11 +14,13 @@ const Container = styled(Toolbar)`
   background-color: var(--primary-bg);
   color: var(--primary-text);
 `
+
 const BackButton = styled(Button)`
   svg {
     color: var(--primary-text);
   }
 `
+
 const Picture = styled.img`
   height: 40px;
   width: 40px;
@@ -35,14 +37,13 @@ const Name = styled.div`
 
 interface ChatNavbarProps {
   history: History
-  chat?: ChatQueryResult
+  chat: ChatQueryResult
 }
 
 const ChatNavbar: React.FC<ChatNavbarProps> = ({ chat, history }) => {
   const navBack = useCallback(() => {
     history.replace('/chats')
   }, [history])
-
   return (
     <Container>
       <BackButton onClick={navBack}>
@@ -53,4 +54,5 @@ const ChatNavbar: React.FC<ChatNavbarProps> = ({ chat, history }) => {
     </Container>
   )
 }
+
 export default ChatNavbar
