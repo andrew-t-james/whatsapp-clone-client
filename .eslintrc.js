@@ -20,7 +20,8 @@ module.exports = {
     sourceType: 'module' // Allows for the use of imports
   },
   rules: {
-    'react/no-unescaped-entities': 'off'
+    'react/no-unescaped-entities': 'off',
+    'react/prop-types': 'off'
   },
   overrides: []
 };
