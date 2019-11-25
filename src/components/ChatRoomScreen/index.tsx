@@ -1,6 +1,8 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import gql from 'graphql-tag'
+import React, { useCallback, useState, useEffect } from 'react'
+import { useApolloClient, useQuery } from '@apollo/react-hooks'
 import styled from 'styled-components'
-import ChatNavbar from './ChatRoomNavbar'
+import ChatRoomNavbar from './ChatRoomNavbar'
 import MessageInput from './MessageInput'
 import MessagesList from './MessagesList'
 import { History } from 'history'
@@ -12,7 +14,7 @@ const Container = styled.div`
   height: 100vh;
 `
 
-const getChatQuery = `
+const getChatQuery = gql`
   query GetChat($chatId: ID!) {
     chat(chatId: $chatId) {
       id
@@ -48,49 +50,56 @@ export interface ChatQueryResult {
 type OptionalChatQueryResult = ChatQueryResult | null
 
 const ChatRoomScreen: React.FC<ChatRoomScreenParams> = ({
-  chatId,
-  history
+  history,
+  chatId
 }) => {
   const [chat, setChat] = useState<OptionalChatQueryResult>(null)
 
-  useMemo(async () => {
-    const body = await fetch(`${process.env.REACT_APP_SERVER_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query: getChatQuery,
-        variables: { chatId }
-      })
-    })
-    const {
-      data: { chat }
-    } = await body.json()
-    setChat(chat)
-  }, [chatId])
+  const client = useApolloClient()
+  const { data } = useQuery<{ chat: ChatQueryResult }>(getChatQuery, {
+    variables: { chatId }
+  })
+
+  useEffect(() => {
+    let current = true
+    if (current && data) {
+      setChat(data.chat)
+    }
+    return (): void => {
+      current = false
+    }
+  })
 
   const onSendMessage = useCallback(
     (content: string) => {
       if (!chat) return null
+
       const message = {
         id: (chat.messages.length + 10).toString(),
         createdAt: new Date(),
-        content
+        content,
+        __typename: 'Chat'
       }
-      setChat({
-        ...chat,
-        messages: chat.messages.concat(message)
+
+      client.writeQuery({
+        query: getChatQuery,
+        variables: { chatId },
+        data: {
+          chat: {
+            ...chat,
+            messages: chat.messages.concat(message)
+          }
+        }
       })
     },
-    [chat]
+    [chat, chatId, client]
   )
 
   if (!chat) return null
 
   return (
     <Container>
-      <ChatNavbar chat={chat} history={history} />
+      <ChatRoomNavbar chat={chat} history={history} />
       {chat.messages && <MessagesList messages={chat.messages} />}
       <MessageInput onSendMessage={onSendMessage} />
     </Container>
