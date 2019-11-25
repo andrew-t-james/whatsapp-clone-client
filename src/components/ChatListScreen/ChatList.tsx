@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import moment from 'moment'
 import { List, ListItem } from '@material-ui/core'
 import styled from 'styled-components/macro'
